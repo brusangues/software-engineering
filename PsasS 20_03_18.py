@@ -31,6 +31,8 @@ class Projeto(Requisito):
 
     def checkEligibility(self):
         print("Testando tempo e custo do {} {}:".format(self.name, self.id))
+        print("    tempo: disponível {}, necessário {}".format(Time, self.time))
+        print("    dinheiro: disponível {}, necessário {}".format(Cost, self.cost))
         if self.time<=Time:
             print("    tempo: Ok")
         else:
@@ -82,6 +84,9 @@ class Codigo:
         self.passedTests = False
     
     def checkPassedTests(self):
+        '''
+        Confere se o código passou em todos os casos de teste
+        '''
         a = sum([t.testResult for t in self.testCases])
         b = len(self.testCases)
         if a==b: 
@@ -90,19 +95,24 @@ class Codigo:
             self.passedTests = False
 
     def testAll(self):
-        print("Testando {} {}".format(self.name, self.id))
-        i = 1
-        for r,t in zip(self.project.reqs, self.testCases):
-            codeResult = r.id
-            print("    teste {}: esperado {}, obtido {}".format(i, t.expectedResult, codeResult))
-            if t.expectedResult == codeResult:
-                t.testResult = True
-                print("    teste {}: Ok".format(i))
-            else:
-                t.testResult = False
-                print("    teste {}: Falhou".format(i))
-            i+=1
-        self.checkPassedTests()
+        '''
+        Realiza todos os testes unitários e armazena os resultados
+        '''
+        print("Deseja testar {} {}?(s/n)".format(self.name, self.id))
+        if input()=='s':
+            print("Testando {} {}".format(self.name, self.id))
+            i = 1
+            for r,t in zip(self.project.reqs, self.testCases):
+                codeResult = r.id
+                print("    teste {}: esperado {}, obtido {}".format(i, t.expectedResult, codeResult))
+                if t.expectedResult == codeResult:
+                    t.testResult = True
+                    print("    teste {}: Ok".format(i))
+                else:
+                    t.testResult = False
+                    print("    teste {}: Falhou".format(i))
+                i+=1
+            self.checkPassedTests()
 
     def info(self):
         print("{} {}".format(self.name, self.id))
@@ -116,7 +126,7 @@ class Produto:
         print("Digite a descrição para {} {}".format(self.name, self.id))
         self.description = input()
         self.code = code
-    
+
     def info(self):
         print("{} {}".format(self.name, self.id))
         print("    descrição:{}".format(self.description))
@@ -124,6 +134,9 @@ class Produto:
 Time = 0
 Cost = 0
 def initialization():
+    '''
+    Inicializa variáveis globais de tempo e dinheiro disponíveis para o processo de software
+    '''
     global Time
     global Cost
     print("Digite o tempo disponível")
@@ -132,6 +145,9 @@ def initialization():
     Cost = int(input())
 
 def createReqs(reqsList, startId):
+    '''
+    Requisitos são gerados um por um
+    '''
     print("Digite o número de requisitos")
     n = int(input())
     for i in range(startId,n+startId):
@@ -141,9 +157,11 @@ def createReqs(reqsList, startId):
         reqsList.append(r)
 
 def createProject(reqsList):
+    '''
+    Criação de um projeto a partir dos requisitos selecionados
+    '''
     print("Deseja criar um Projeto com todos os requisitos?(s/n)")
-    a = input()
-    if a=='s':
+    if input()=='s':
         return Projeto(0,reqsList)
     else:
         print("Selecione os requisitos que deseja incluir")
@@ -154,6 +172,9 @@ def createProject(reqsList):
         return Projeto(0,newReqsList)
 
 def updateProject(project):
+    '''
+    Adição ou remoção de requisitos no projeto
+    '''
     while(True):
         print("Deseja adicionar requisitos ao {} {}?(s/n)".format(project.name, project.id))
         if input()=='s':
@@ -176,7 +197,11 @@ def updateProject(project):
         if project.eligible: break
 
 def createCode(project):
-    print("Deseja implementar {} {}?(s/n)".format(project.name, project.id))
+    '''
+    A partir do projeto que satisfaça as restrições de tempo e custo, uma implementação em código é criada
+    Os casos de teste para o código são gerados a partir dos requisitos do projeto
+    '''
+    print("Deseja implementar {} {} como um código?(s/n)".format(project.name, project.id))
     if input()=='s':
         if project.eligible:
             testCases = []
@@ -186,18 +211,50 @@ def createCode(project):
             return Codigo(project.id, project, testCases)
         else:
             print("Projeto selecionado não satisfaz as restrições de tempo ou custo")
+    print("Por favor modifique o projeto")
+    updateProject(project)
 
 def createProduct(code):
-    print("Deseja implementar {} {}?(s/n)".format(code.name, code.id))
+    '''
+    A partir do código testado, uma implementação de produto final é gerada
+    '''
+    print("Deseja implementar {} {} como um produto?(s/n)".format(code.name, code.id))
     if input()=='s':
         if code.passedTests:
             return Produto(code.id, code)
         else:
             print("Código selecionado não passou em todos os casos de teste")
+    createProduct(code)
 
-print("UFABC Disciplina: Engenharia de Software - PSasS Professor: João Marcelo Borovina Josko")
+def updateProduct(product):
+    '''
+    Produto pode ser atualizado e voltar para a fase de testes até que fique bom suficiente
+    '''
+    while True:
+        print("Está satisfeito com o {} {}?(s/n)".format(product.name, product.id))
+        if input()=='n':
+            print("Deseja retornar o {} {} para a fase de testes?(s/n)".format(product.name, product.id))
+            if input()=='s':
+                code = product.code
+                code.info()
+
+                print("++++++++++++TESTES++++++++++++")
+                code.testAll()
+                code.info()
+
+                print("+++++++++++PRODUTO++++++++++++")
+                product = createProduct(code)
+                product.info()
+        else:
+            break
+
+
+
+print("UFABC Disciplina: Engenharia de Software - PSasS")
+print("Professor: João Marcelo Borovina Josko")
 print("Aluno: Bruno Sanches Rodrigues RA: 11201721076")
-print("Todas as quantidades abstratas solicitadas são números inteiros")
+print("++++++++++++++++++++++++++++++")
+print("Para utilizar, digite as quantidades inteiras ou responda com uma das letras \'s\' ou \'n\'")
 
 print("++++++++INICIALIZAÇÃO+++++++++")
 initialization()
@@ -224,3 +281,5 @@ codigo0.info()
 print("+++++++++++PRODUTO++++++++++++")
 produto0 = createProduct(codigo0)
 produto0.info()
+updateProduct(produto0)
+print("++++++++++++++FIM+++++++++++++")

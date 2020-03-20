@@ -1,0 +1,41 @@
+10
+10
+4
+Primeiro requisito funcional
+2
+3
+Segundo req
+3
+4
+Terceiro req
+1
+2
+Quarto req
+10
+5
+n
+s
+s
+s
+n
+Primeiro projeto
+s
+2
+Quarto req
+3
+1
+Quinto req
+1
+2
+s
+s
+n
+n
+n
+n
+s
+Primeiro código
+s
+s
+Primeiro produto
+s

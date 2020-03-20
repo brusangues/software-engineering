@@ -1,20 +1,3 @@
-# software-engineering
-
-Universidade Federal do ABC
-Disciplina: Engenharia de Software - Processo de Software as a Software
-Professor: João Marcelo Borovina Josko
-Aluno: Bruno Sanches Rodrigues
-
-![Diagrama UML para entendimento do código](https://raw.githubusercontent.com/brusangues/software-engineering/master/PSasS%20UML.png)
-
-### Link para visualização do código na plataforma Repl.it:
-### https://repl.it/@BrunoSanches/ES-PSasS-Bruno-Sanches-Rodrigues
-
-### Link para executar o código online:
-### https://ES-PSasS-Bruno-Sanches-Rodrigues.brunosanches.repl.run
-
-## Abaixo, um exemplo de execução:
-
 UFABC Disciplina: Engenharia de Software - PSasS
 Professor: João Marcelo Borovina Josko
 Aluno: Bruno Sanches Rodrigues RA: 11201721076
