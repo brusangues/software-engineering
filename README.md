@@ -14,7 +14,7 @@ Aluno: Bruno Sanches Rodrigues
 ### https://ES-PSasS-Bruno-Sanches-Rodrigues.brunosanches.repl.run
 
 ## Abaixo, um exemplo de execução:
-
+```
 UFABC Disciplina: Engenharia de Software - PSasS
 Professor: João Marcelo Borovina Josko
 Aluno: Bruno Sanches Rodrigues RA: 11201721076
@@ -153,3 +153,4 @@ Produto 0
 Está satisfeito com o Produto 0?(s/n)
 >>s
 ++++++++++++++FIM+++++++++++++
+```
